@@ -1,0 +1,19 @@
+services:
+  - type: web
+    name: openhands
+    env: docker
+    repo: https://github.com/enablerdao/OpenHands
+    dockerfilePath: ./containers/app/Dockerfile
+    envVars:
+      - key: RUNTIME
+        value: daytona
+      - key: DAYTONA_API_KEY
+        sync: false
+      - key: LOG_ALL_EVENTS
+        value: true
+      - key: FILE_STORE
+        value: local
+      - key: FILE_STORE_PATH
+        value: /.openhands-state
+    healthCheckPath: /
+    plan: free

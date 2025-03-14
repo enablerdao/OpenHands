@@ -58,6 +58,14 @@ docker run -it --rm --pull=always \
 
 You'll find OpenHands running at [http://localhost:3000](http://localhost:3000)!
 
+### Deploy to Render
+
+You can also deploy OpenHands to Render with one click:
+
+[![Deploy to Render](https://render.com/images/deploy-to-render-button.svg)](https://render.com/deploy?repo=https://github.com/enablerdao/OpenHands)
+
+> **Note:** When deploying to Render, you'll need to provide your Daytona API key. [Get your API key here](https://app.daytona.io/dashboard/keys).
+
 Finally, you'll need a model provider and API key.
 [Anthropic's Claude 3.5 Sonnet](https://www.anthropic.com/api) (`anthropic/claude-3-5-sonnet-20241022`)
 works best, but you have [many options](https://docs.all-hands.dev/modules/usage/llms).
@@ -70,6 +78,17 @@ interact with it via a [friendly CLI](https://docs.all-hands.dev/modules/usage/h
 or run it on tagged issues with [a github action](https://docs.all-hands.dev/modules/usage/how-to/github-action).
 
 Visit [Running OpenHands](https://docs.all-hands.dev/modules/usage/installation) for more information and setup instructions.
+
+### Render Deployment
+
+When deploying to Render, OpenHands uses the [Daytona runtime](https://www.daytona.io/) which provides a secure and elastic infrastructure for running AI-generated code. This approach doesn't require Docker socket mounting, making it compatible with cloud platforms like Render.
+
+To configure your Render deployment:
+
+1. Click the "Deploy to Render" button above
+2. Provide your Daytona API key when prompted
+3. Wait for the deployment to complete
+4. Access your OpenHands instance at the provided URL
 
 > [!CAUTION]
 > OpenHands is meant to be run by a single user on their local workstation.
