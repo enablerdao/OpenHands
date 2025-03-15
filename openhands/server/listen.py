@@ -5,6 +5,7 @@ from openhands.server.listen_socket import sio
 from openhands.server.middleware import (
     AttachConversationMiddleware,
     CacheControlMiddleware,
+    ContentSecurityPolicyMiddleware,
     GitHubTokenMiddleware,
     InMemoryRateLimiter,
     LocalhostCORSMiddleware,
@@ -24,6 +25,7 @@ base_app.add_middleware(
 )
 
 base_app.add_middleware(CacheControlMiddleware)
+base_app.add_middleware(ContentSecurityPolicyMiddleware)
 base_app.add_middleware(
     RateLimitMiddleware,
     rate_limiter=InMemoryRateLimiter(requests=10, seconds=1),

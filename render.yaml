@@ -15,5 +15,14 @@ services:
         value: local
       - key: FILE_STORE_PATH
         value: /.openhands-state
+      - key: NODE_ENV
+        value: production
+      - key: VITE_BACKEND_BASE_URL
+        fromService:
+          name: openhands
+          type: web
+          property: host
+      - key: REACT_ARIA_NO_SSR
+        value: true
     healthCheckPath: /
     plan: free

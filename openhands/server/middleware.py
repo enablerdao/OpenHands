@@ -205,3 +205,31 @@ class GitHubTokenMiddleware(SessionMiddlewareInterface):
                 request.state.provider_tokens = None
 
         return await call_next(request)
+
+
+class ContentSecurityPolicyMiddleware(BaseHTTPMiddleware):
+    """
+    Middleware to add Content Security Policy headers to all responses.
+    This is necessary for the frontend to work properly with Remix and SES.
+    """
+
+    async def dispatch(self, request, call_next):
+        response = await call_next(request)
+        
+        # Add CSP headers to allow necessary JavaScript execution
+        response.headers['Content-Security-Policy'] = (
+            "default-src 'self'; "
+            "script-src 'self' 'unsafe-inline' 'unsafe-eval'; "
+            "style-src 'self' 'unsafe-inline'; "
+            "img-src 'self' data:; "
+            "connect-src 'self' ws: wss:; "
+            "font-src 'self'; "
+            "object-src 'none'; "
+            "base-uri 'self'; "
+            "form-action 'self'; "
+            "frame-ancestors 'none'; "
+            "block-all-mixed-content; "
+            "upgrade-insecure-requests;"
+        )
+        
+        return response
