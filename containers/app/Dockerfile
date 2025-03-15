@@ -7,6 +7,10 @@ COPY ./frontend/package.json frontend/package-lock.json ./
 RUN npm install -g npm@10.5.1
 RUN npm ci
 
+# Add environment variables for frontend build
+ENV NODE_ENV=production
+ENV REACT_ARIA_NO_SSR=true
+
 COPY ./frontend ./
 RUN npm run build
 

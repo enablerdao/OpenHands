@@ -5,11 +5,13 @@ import {
   Outlet,
   Scripts,
   ScrollRestoration,
+  HydrateFallbackProps,
 } from "react-router";
 import "./tailwind.css";
 import "./index.css";
 import React from "react";
 import { Toaster } from "react-hot-toast";
+import { HydrateFallback } from "./components/hydrate-fallback";
 
 export function Layout({ children }: { children: React.ReactNode }) {
   return (
@@ -37,4 +39,9 @@ export const meta: MetaFunction = () => [
 
 export default function App() {
   return <Outlet />;
+}
+
+// Add this new export for the HydrateFallback
+export function HydrateFallbackRoute(props: HydrateFallbackProps) {
+  return <HydrateFallback />;
 }
