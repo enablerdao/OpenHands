@@ -10,6 +10,8 @@ RUN npm ci
 # Add environment variables for frontend build
 ENV NODE_ENV=production
 ENV REACT_ARIA_NO_SSR=true
+ENV REMIX_DEV_ORIGIN=https://openhands.onrender.com
+ENV REMIX_DEV_SERVER_TIMEOUT=30000
 
 COPY ./frontend ./
 RUN npm run build

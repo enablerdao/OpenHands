@@ -41,7 +41,4 @@ export default function App() {
   return <Outlet />;
 }
 
-// Add this new export for the HydrateFallback
-export function HydrateFallbackRoute(props: HydrateFallbackProps) {
-  return <HydrateFallback />;
-}
+// Route-specific HydrateFallback components are used instead of a global one

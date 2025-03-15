@@ -222,6 +222,7 @@ class ContentSecurityPolicyMiddleware(BaseHTTPMiddleware):
             "script-src 'self' 'unsafe-inline' 'unsafe-eval'; "
             "style-src 'self' 'unsafe-inline'; "
             "img-src 'self' data:; "
+            "media-src 'self' blob:; "
             "connect-src 'self' ws: wss:; "
             "font-src 'self'; "
             "object-src 'none'; "
@@ -229,7 +230,8 @@ class ContentSecurityPolicyMiddleware(BaseHTTPMiddleware):
             "form-action 'self'; "
             "frame-ancestors 'none'; "
             "block-all-mixed-content; "
-            "upgrade-insecure-requests;"
+            "upgrade-insecure-requests; "
+            "worker-src 'self' blob:;"
         )
         
         return response
