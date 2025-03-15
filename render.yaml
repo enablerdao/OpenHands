@@ -24,5 +24,9 @@ services:
           property: host
       - key: REACT_ARIA_NO_SSR
         value: true
+      - key: REMIX_DEV_ORIGIN
+        value: https://$RENDER_SERVICE_NAME.onrender.com
+      - key: REMIX_DEV_SERVER_TIMEOUT
+        value: "30000"
     healthCheckPath: /
     plan: free
