@@ -26,7 +26,7 @@ RUN apt-get update -y \
 
 COPY ./pyproject.toml ./poetry.lock ./
 RUN touch README.md
-RUN export POETRY_CACHE_DIR && poetry install --without evaluation --no-root && rm -rf $POETRY_CACHE_DIR
+RUN export POETRY_CACHE_DIR && poetry install --no-root && rm -rf $POETRY_CACHE_DIR
 
 FROM python:3.12.3-slim AS openhands-app
 
@@ -70,7 +70,6 @@ ENV VIRTUAL_ENV=/app/.venv \
     PYTHONPATH='/app'
 
 COPY --chown=openhands:app --chmod=770 --from=backend-builder ${VIRTUAL_ENV} ${VIRTUAL_ENV}
-RUN playwright install --with-deps chromium
 
 COPY --chown=openhands:app --chmod=770 ./microagents ./microagents
 COPY --chown=openhands:app --chmod=770 ./openhands ./openhands

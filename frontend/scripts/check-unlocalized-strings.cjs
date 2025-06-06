@@ -39,6 +39,7 @@ const IGNORE_PATHS = [
   "entry.client.tsx", // Client entry point
   "utils/scan-unlocalized-strings.ts", // Original scanner
   "utils/scan-unlocalized-strings-ast.ts", // This file itself
+  "frontend/src/components/features/home/tasks/get-prompt-for-query.ts", // Only contains agent prompts
 ];
 
 // Extensions to scan
@@ -46,6 +47,7 @@ const SCAN_EXTENSIONS = [".ts", ".tsx", ".js", ".jsx"];
 
 // Attributes that typically don't contain user-facing text
 const NON_TEXT_ATTRIBUTES = [
+  "allow",
   "className",
   "i18nKey",
   "testId",
@@ -68,6 +70,7 @@ const NON_TEXT_ATTRIBUTES = [
   "aria-describedby",
   "aria-hidden",
   "role",
+  "sandbox",
 ];
 
 function shouldIgnorePath(filePath) {
@@ -105,10 +108,31 @@ function isRawTranslationKey(str) {
 // Specific technical strings that should be excluded from localization
 const EXCLUDED_TECHNICAL_STRINGS = [
   "openid email profile", // OAuth scope string - not user-facing
+  "OPEN_ISSUE", // Task type identifier, not a UI string
+  "Merge Request", // Git provider specific terminology
+  "GitLab API", // Git provider specific terminology
+  "Pull Request", // Git provider specific terminology
+  "GitHub API", // Git provider specific terminology
+  "add-secret-form", // Test ID for secret form
+  "edit-secret-form", // Test ID for secret form
+  "search-api-key-input", // Input name for search API key
+  "noopener,noreferrer", // Options for window.open
 ];
 
 function isExcludedTechnicalString(str) {
   return EXCLUDED_TECHNICAL_STRINGS.includes(str);
+}
+
+function isLikelyCode(str) {
+  // A string with no spaces and at least one underscore or colon is likely a code.
+  // (e.g.: "browser_interactive" or "error:")
+  if (str.includes(" ")) {
+    return false
+  }
+  if (str.includes(":") || str.includes("_")){
+    return true
+  }
+  return false
 }
 
 function isCommonDevelopmentString(str) {
@@ -275,8 +299,8 @@ function isCommonDevelopmentString(str) {
 
   // HTML tags and attributes
   if (
-    /^<[a-z0-9]+>.*<\/[a-z0-9]+>$/.test(str) ||
-    /^<[a-z0-9]+ [^>]+\/>$/.test(str)
+    /^<[a-z0-9]+(?:\s[^>]*)?>.*<\/[a-z0-9]+>$/i.test(str) ||
+    /^<[a-z0-9]+ [^>]+\/>$/i.test(str)
   ) {
     return true;
   }
@@ -375,6 +399,11 @@ function isLikelyUserFacingText(str) {
   // Check if it's a specifically excluded technical string
   if (isExcludedTechnicalString(str)) {
     return false;
+  }
+
+  // Check if it looks like a code rather than a key
+  if (isLikelyCode(str)) {
+    return false
   }
 
   // Check if it's a raw translation key that should be wrapped in t()
